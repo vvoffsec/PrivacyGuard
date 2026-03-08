@@ -3,7 +3,15 @@ import { DataClassSchema, highestDataClass, isAtLeast } from "../data-class.js";
 
 describe("DataClassSchema", () => {
   it("accepts valid data classes", () => {
-    const valid = ["public", "internal", "confidential", "restricted", "pii", "secret", "credential"];
+    const valid = [
+      "public",
+      "internal",
+      "confidential",
+      "restricted",
+      "pii",
+      "secret",
+      "credential",
+    ];
     for (const dc of valid) {
       expect(DataClassSchema.parse(dc)).toBe(dc);
     }

@@ -1,10 +1,7 @@
 import { z } from "zod";
 import { DataClassSchema } from "./data-class.js";
 import { DetectedEntitySchema } from "./entity.js";
-import {
-  EnvelopeConsistencyError,
-  EnvelopeValidationError,
-} from "./errors.js";
+import { EnvelopeConsistencyError, EnvelopeValidationError } from "./errors.js";
 
 export const SourceTypeSchema = z.enum([
   "user_input",
@@ -30,11 +27,7 @@ export const RetentionClassSchema = z.enum([
   "quarantined",
 ]);
 
-export const DestinationSchema = z.enum([
-  "local_only",
-  "approved_remote",
-  "any_remote",
-]);
+export const DestinationSchema = z.enum(["local_only", "approved_remote", "any_remote"]);
 
 export const PurposeTagSchema = z.enum([
   "user_request",
@@ -87,8 +80,7 @@ export const ContentEnvelopeSchema = ContentEnvelopeBaseSchema.superRefine(
     if (hasSensitivity("pii") && !hasTaint("contains_pii")) {
       ctx.addIssue({
         code: "custom",
-        message:
-          "sensitivity includes pii but taint_flags is missing contains_pii",
+        message: "sensitivity includes pii but taint_flags is missing contains_pii",
         path: ["taint_flags"],
       });
     }
@@ -118,9 +110,7 @@ export function parseEnvelope(data: unknown): ContentEnvelope {
   const result = ContentEnvelopeSchema.safeParse(data);
   if (!result.success) {
     const issues = result.error.issues;
-    const hasConsistencyIssue = issues.some(
-      (i) => i.code === "custom",
-    );
+    const hasConsistencyIssue = issues.some((i) => i.code === "custom");
     if (hasConsistencyIssue) {
       throw new EnvelopeConsistencyError(issues);
     }

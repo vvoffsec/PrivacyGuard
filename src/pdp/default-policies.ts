@@ -10,8 +10,7 @@ const EGRESS_ACTIONS = [
 
 export const egressSecretDeny: PolicyRule = createPolicyRule({
   id: "pg.egress.secret.default",
-  description:
-    "Deny egress of content marked as secret to any remote destination",
+  description: "Deny egress of content marked as secret to any remote destination",
   effect: "deny",
   evaluate: (input) =>
     EGRESS_ACTIONS.includes(input.request.action) &&
@@ -30,8 +29,7 @@ export const execUntrustedApproval: PolicyRule = createPolicyRule({
 
 export const memoryPromotionQuarantine: PolicyRule = createPolicyRule({
   id: "pg.memory.promotion",
-  description:
-    "Quarantine untrusted external content being promoted to durable memory",
+  description: "Quarantine untrusted external content being promoted to durable memory",
   effect: "quarantine",
   evaluate: (input) =>
     input.request.action === "memory.write" &&

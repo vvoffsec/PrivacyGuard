@@ -29,9 +29,7 @@ function buildEnvelope(
     entities: opts.entities ?? [],
     allowed_destinations,
     purpose_tags: opts.purpose_tags ?? [],
-    taint_flags: [
-      ...new Set([...default_taint_flags, ...(opts.taint_flags ?? [])]),
-    ],
+    taint_flags: [...new Set([...default_taint_flags, ...(opts.taint_flags ?? [])])],
     created_at: new Date().toISOString(),
   });
 }

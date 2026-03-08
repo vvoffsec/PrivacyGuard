@@ -37,9 +37,9 @@ describe("parseEnvelope", () => {
   });
 
   it("rejects invalid source_type", () => {
-    expect(() =>
-      parseEnvelope(validEnvelopeData({ source_type: "fax" })),
-    ).toThrow(EnvelopeValidationError);
+    expect(() => parseEnvelope(validEnvelopeData({ source_type: "fax" }))).toThrow(
+      EnvelopeValidationError,
+    );
   });
 
   it("rejects invalid source_trust", () => {
@@ -49,38 +49,34 @@ describe("parseEnvelope", () => {
   });
 
   it("rejects empty sensitivity array", () => {
-    expect(() =>
-      parseEnvelope(validEnvelopeData({ sensitivity: [] })),
-    ).toThrow(EnvelopeValidationError);
+    expect(() => parseEnvelope(validEnvelopeData({ sensitivity: [] }))).toThrow(
+      EnvelopeValidationError,
+    );
   });
 
   it("rejects invalid content_id (not UUID)", () => {
-    expect(() =>
-      parseEnvelope(validEnvelopeData({ content_id: "not-a-uuid" })),
-    ).toThrow(EnvelopeValidationError);
+    expect(() => parseEnvelope(validEnvelopeData({ content_id: "not-a-uuid" }))).toThrow(
+      EnvelopeValidationError,
+    );
   });
 
   it("rejects invalid created_at (not ISO 8601)", () => {
-    expect(() =>
-      parseEnvelope(validEnvelopeData({ created_at: "yesterday" })),
-    ).toThrow(EnvelopeValidationError);
+    expect(() => parseEnvelope(validEnvelopeData({ created_at: "yesterday" }))).toThrow(
+      EnvelopeValidationError,
+    );
   });
 });
 
 describe("cross-field refinements", () => {
   it("rejects secret sensitivity without contains_secret taint flag", () => {
     expect(() =>
-      parseEnvelope(
-        validEnvelopeData({ sensitivity: ["secret"], taint_flags: [] }),
-      ),
+      parseEnvelope(validEnvelopeData({ sensitivity: ["secret"], taint_flags: [] })),
     ).toThrow(EnvelopeConsistencyError);
   });
 
   it("rejects credential sensitivity without contains_secret taint flag", () => {
     expect(() =>
-      parseEnvelope(
-        validEnvelopeData({ sensitivity: ["credential"], taint_flags: [] }),
-      ),
+      parseEnvelope(validEnvelopeData({ sensitivity: ["credential"], taint_flags: [] })),
     ).toThrow(EnvelopeConsistencyError);
   });
 
@@ -96,9 +92,7 @@ describe("cross-field refinements", () => {
 
   it("rejects pii sensitivity without contains_pii taint flag", () => {
     expect(() =>
-      parseEnvelope(
-        validEnvelopeData({ sensitivity: ["pii"], taint_flags: [] }),
-      ),
+      parseEnvelope(validEnvelopeData({ sensitivity: ["pii"], taint_flags: [] })),
     ).toThrow(EnvelopeConsistencyError);
   });
 
@@ -175,8 +169,8 @@ describe("updateEnvelope", () => {
 
   it("validates the patched result", () => {
     const original = parseEnvelope(validEnvelopeData());
-    expect(() =>
-      updateEnvelope(original, { source_trust: "invalid" as never }),
-    ).toThrow(EnvelopeValidationError);
+    expect(() => updateEnvelope(original, { source_trust: "invalid" as never })).toThrow(
+      EnvelopeValidationError,
+    );
   });
 });

@@ -30,9 +30,7 @@ const EGRESS_ALLOWED_FIELDS = new Set([
  * Strip an envelope to only egress-safe fields (allowlist approach).
  * New fields default to stripped — safer at trust boundaries.
  */
-export function stripForEgress(
-  envelope: ContentEnvelope,
-): Record<string, unknown> {
+export function stripForEgress(envelope: ContentEnvelope): Record<string, unknown> {
   const result: Record<string, unknown> = {};
   for (const key of Object.keys(envelope)) {
     if (EGRESS_ALLOWED_FIELDS.has(key)) {

@@ -168,15 +168,15 @@ describe("parsePolicyDecision", () => {
   });
 
   it("throws on invalid decision effect", () => {
-    expect(() =>
-      parsePolicyDecision(validDecisionData({ decision: "maybe" })),
-    ).toThrow(PolicyValidationError);
+    expect(() => parsePolicyDecision(validDecisionData({ decision: "maybe" }))).toThrow(
+      PolicyValidationError,
+    );
   });
 
   it("throws on empty matched_rules", () => {
-    expect(() =>
-      parsePolicyDecision(validDecisionData({ matched_rules: [] })),
-    ).toThrow(PolicyValidationError);
+    expect(() => parsePolicyDecision(validDecisionData({ matched_rules: [] }))).toThrow(
+      PolicyValidationError,
+    );
   });
 
   it("throws on invalid decision_id (non-uuid)", () => {
@@ -224,7 +224,9 @@ describe("PolicyEffectSchema", () => {
 describe("EFFECT_SEVERITY", () => {
   it("has correct ordering", () => {
     expect(EFFECT_SEVERITY.allow).toBeLessThan(EFFECT_SEVERITY.allow_with_minimization);
-    expect(EFFECT_SEVERITY.allow_with_minimization).toBeLessThan(EFFECT_SEVERITY.require_approval);
+    expect(EFFECT_SEVERITY.allow_with_minimization).toBeLessThan(
+      EFFECT_SEVERITY.require_approval,
+    );
     expect(EFFECT_SEVERITY.require_approval).toBeLessThan(EFFECT_SEVERITY.quarantine);
     expect(EFFECT_SEVERITY.quarantine).toBeLessThan(EFFECT_SEVERITY.deny);
   });
@@ -242,15 +244,13 @@ describe("mostRestrictiveEffect", () => {
 
   it("returns the most restrictive of multiple effects", () => {
     expect(mostRestrictiveEffect(["allow", "deny"])).toBe("deny");
-    expect(
-      mostRestrictiveEffect(["allow", "require_approval", "quarantine"]),
-    ).toBe("quarantine");
+    expect(mostRestrictiveEffect(["allow", "require_approval", "quarantine"])).toBe(
+      "quarantine",
+    );
   });
 
   it("handles all same effects", () => {
-    expect(
-      mostRestrictiveEffect(["allow", "allow", "allow"]),
-    ).toBe("allow");
+    expect(mostRestrictiveEffect(["allow", "allow", "allow"])).toBe("allow");
   });
 
   it("deny always wins", () => {

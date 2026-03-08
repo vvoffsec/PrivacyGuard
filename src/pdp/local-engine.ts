@@ -34,8 +34,7 @@ export class InProcessPolicyEngine implements PolicyEngine {
           });
         }
       } catch (error) {
-        const message =
-          error instanceof Error ? error.message : String(error);
+        const message = error instanceof Error ? error.message : String(error);
         throw new PolicyEvaluationError(
           `Rule "${rule.id}" threw during evaluation: ${message}`,
         );

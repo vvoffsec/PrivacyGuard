@@ -1,5 +1,15 @@
-export { DataClassSchema, type DataClass, highestDataClass, isAtLeast } from "./data-class.js";
-export { EntitySpanSchema, type EntitySpan, DetectedEntitySchema, type DetectedEntity } from "./entity.js";
+export {
+  DataClassSchema,
+  type DataClass,
+  highestDataClass,
+  isAtLeast,
+} from "./data-class.js";
+export {
+  EntitySpanSchema,
+  type EntitySpan,
+  DetectedEntitySchema,
+  type DetectedEntity,
+} from "./entity.js";
 export { EnvelopeValidationError, EnvelopeConsistencyError } from "./errors.js";
 export {
   ContentEnvelopeSchema,
@@ -22,5 +32,9 @@ export {
   createMemoryEnvelope,
   createGeneratedEnvelope,
 } from "./factories.js";
-export { serializeEnvelope, deserializeEnvelope, stripForEgress } from "./serialization.js";
+export {
+  serializeEnvelope,
+  deserializeEnvelope,
+  stripForEgress,
+} from "./serialization.js";
 export { sha256Hash } from "../shared/crypto.js";

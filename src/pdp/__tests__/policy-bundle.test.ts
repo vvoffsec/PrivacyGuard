@@ -41,15 +41,15 @@ describe("createPolicyBundle", () => {
   });
 
   it("throws PolicyBundleError for empty version", () => {
-    expect(() =>
-      createPolicyBundle({ version: "", rules: [makeRule("r1")] }),
-    ).toThrow(PolicyBundleError);
+    expect(() => createPolicyBundle({ version: "", rules: [makeRule("r1")] })).toThrow(
+      PolicyBundleError,
+    );
   });
 
   it("throws PolicyBundleError for empty rules", () => {
-    expect(() =>
-      createPolicyBundle({ version: "1.0.0", rules: [] }),
-    ).toThrow(PolicyBundleError);
+    expect(() => createPolicyBundle({ version: "1.0.0", rules: [] })).toThrow(
+      PolicyBundleError,
+    );
   });
 
   it("throws PolicyBundleError for duplicate rule IDs", () => {

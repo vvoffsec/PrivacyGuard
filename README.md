@@ -130,7 +130,7 @@ gantt
 
     section Phase 0 - Skeleton
     01 Data Model & Envelope        :done, p01, 2026-03-07, 1d
-    02 Policy Decision Point        :p02, after p01, 5d
+    02 Policy Decision Point        :done, p02, after p01, 1d
     03 Capability Tokens            :p03, after p01, 5d
     04 API Surface & Contracts      :p04, after p01, 5d
     05 Audit Event System           :p05, after p01, 5d
@@ -158,7 +158,7 @@ gantt
 
 | Phase | Components | Status |
 |-------|-----------|--------|
-| **Phase 0** — Skeleton | 01 Data Model, 02 PDP, 03 Cap Tokens, 04 API Surface, 05 Audit Events | 1/5 |
+| **Phase 0** — Skeleton | 01 Data Model, 02 PDP, 03 Cap Tokens, 04 API Surface, 05 Audit Events | 2/5 |
 | **Phase 1** — MVP Controls | 06 Ingress, 07 Sensitivity, 08 Tool Gateway, 09 Approvals, 10 Egress DLP, 11 Telemetry | 0/6 |
 | **Phase 2** — Trust-Aware Memory | 12 Memory Guard | 0/1 |
 | **Phase 3** — Provenance & Identity | 13 Provenance, 14 Workload Identity | 0/2 |
@@ -265,6 +265,17 @@ PrivacyGuard/
 │   │   ├── errors.ts                  # Validation & consistency errors
 │   │   ├── factories.ts              # Envelope factory helpers
 │   │   ├── serialization.ts          # JSON serialization + integrity hashing
+│   │   └── index.ts                   # Public API barrel
+│   ├── pdp/                           # Plan 02 — Policy Decision Point
+│   │   ├── __tests__/                 # 97 unit tests
+│   │   ├── types.ts                   # PolicyInput, PolicyEffect, PolicyDecision schemas
+│   │   ├── errors.ts                  # Validation, bundle, evaluation errors
+│   │   ├── policy-rule.ts             # PolicyRule interface + factory
+│   │   ├── policy-bundle.ts           # PolicyBundle type + factory
+│   │   ├── default-policies.ts        # 3 mandatory default policies
+│   │   ├── engine.ts                  # PolicyEngine interface (pluggable backend)
+│   │   ├── local-engine.ts            # InProcessPolicyEngine (first backend)
+│   │   ├── pdp.ts                     # createPDP facade (validate → evaluate → fail-closed)
 │   │   └── index.ts                   # Public API barrel
 │   └── shared/
 │       └── crypto.ts                  # SHA-256 hashing utility

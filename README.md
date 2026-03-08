@@ -131,9 +131,9 @@ gantt
     section Phase 0 - Skeleton
     01 Data Model & Envelope        :done, p01, 2026-03-07, 1d
     02 Policy Decision Point        :done, p02, after p01, 1d
-    03 Capability Tokens            :p03, after p01, 5d
-    04 API Surface & Contracts      :p04, after p01, 5d
-    05 Audit Event System           :p05, after p01, 5d
+    03 Capability Tokens            :done, p03, after p01, 1d
+    04 API Surface & Contracts      :done, p04, after p01, 1d
+    05 Audit Event System           :done, p05, after p01, 1d
 
     section Phase 1 - MVP
     06 Ingress Inspector            :p06, after p02, 5d
@@ -158,7 +158,7 @@ gantt
 
 | Phase | Components | Status |
 |-------|-----------|--------|
-| **Phase 0** — Skeleton | 01 Data Model, 02 PDP, 03 Cap Tokens, 04 API Surface, 05 Audit Events | 2/5 |
+| **Phase 0** — Skeleton | 01 Data Model, 02 PDP, 03 Cap Tokens, 04 API Surface, 05 Audit Events | **5/5** |
 | **Phase 1** — MVP Controls | 06 Ingress, 07 Sensitivity, 08 Tool Gateway, 09 Approvals, 10 Egress DLP, 11 Telemetry | 0/6 |
 | **Phase 2** — Trust-Aware Memory | 12 Memory Guard | 0/1 |
 | **Phase 3** — Provenance & Identity | 13 Provenance, 14 Workload Identity | 0/2 |
@@ -276,6 +276,36 @@ PrivacyGuard/
 │   │   ├── engine.ts                  # PolicyEngine interface (pluggable backend)
 │   │   ├── local-engine.ts            # InProcessPolicyEngine (first backend)
 │   │   ├── pdp.ts                     # createPDP facade (validate → evaluate → fail-closed)
+│   │   └── index.ts                   # Public API barrel
+│   ├── capabilities/                  # Plan 03 — Capability Tokens
+│   │   ├── __tests__/                 # 84 unit tests
+│   │   ├── types.ts                   # CapabilityToken, ScopeCheckRequest schemas
+│   │   ├── errors.ts                  # Mint, validation errors
+│   │   ├── mint.ts                    # Token minting from policy decisions
+│   │   ├── signing.ts                 # HMAC signing + key providers
+│   │   ├── validate.ts               # Token validation pipeline
+│   │   ├── revocation.ts             # Token revocation registry
+│   │   ├── scope.ts                   # Scope checking (tools, data classes, destinations)
+│   │   └── index.ts                   # Public API barrel
+│   ├── api/                           # Plan 04 — API Surface & Contracts
+│   │   ├── __tests__/                 # 133 unit tests
+│   │   ├── types.ts                   # Request/response schemas (ingress, tool, memory, explain)
+│   │   ├── errors.ts                  # API validation + handler errors
+│   │   ├── transport.ts               # In-process transport + routing
+│   │   ├── result.ts                  # ApiResult type (success/error)
+│   │   ├── interfaces.ts             # AuditEmitter, DecisionStore, CapabilityStore interfaces
+│   │   ├── decision-store.ts          # In-memory decision store
+│   │   ├── handlers/                  # Route handlers (ingress, tool-auth, memory, explain)
+│   │   └── index.ts                   # Public API barrel
+│   ├── audit/                         # Plan 05 — Audit Event System
+│   │   ├── __tests__/                 # 104 unit tests
+│   │   ├── types.ts                   # 6 event schemas (decision, approval, tool, memory, egress, integrity)
+│   │   ├── errors.ts                  # Audit validation + consistency errors
+│   │   ├── factories.ts              # Event factory functions
+│   │   ├── emitter.ts                 # DefaultAuditEmitter + NoOpAuditEmitter
+│   │   ├── store.ts                   # InMemoryAuditStore
+│   │   ├── query.ts                   # Event querying + filtering
+│   │   ├── serialization.ts          # JSON serialization + integrity verification
 │   │   └── index.ts                   # Public API barrel
 │   └── shared/
 │       └── crypto.ts                  # SHA-256 hashing utility

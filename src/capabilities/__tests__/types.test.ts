@@ -64,9 +64,9 @@ describe("parseCapabilityToken", () => {
   });
 
   it("rejects invalid token_id (non-uuid)", () => {
-    expect(() => parseCapabilityToken(validTokenData({ token_id: "not-a-uuid" }))).toThrow(
-      TokenValidationError,
-    );
+    expect(() =>
+      parseCapabilityToken(validTokenData({ token_id: "not-a-uuid" })),
+    ).toThrow(TokenValidationError);
   });
 
   it("rejects empty agent_id", () => {
@@ -97,15 +97,15 @@ describe("parseCapabilityToken", () => {
   });
 
   it("rejects invalid max_data_class", () => {
-    expect(() => parseCapabilityToken(validTokenData({ max_data_class: "top_secret" }))).toThrow(
-      TokenValidationError,
-    );
+    expect(() =>
+      parseCapabilityToken(validTokenData({ max_data_class: "top_secret" })),
+    ).toThrow(TokenValidationError);
   });
 
   it("rejects invalid memory_tier", () => {
-    expect(() => parseCapabilityToken(validTokenData({ memory_tier: "permanent" }))).toThrow(
-      TokenValidationError,
-    );
+    expect(() =>
+      parseCapabilityToken(validTokenData({ memory_tier: "permanent" })),
+    ).toThrow(TokenValidationError);
   });
 
   it("rejects invalid source_decision_id", () => {
@@ -156,7 +156,9 @@ describe("parseMintTokenRequest", () => {
   });
 
   it("accepts custom memory_tier", () => {
-    const request = parseMintTokenRequest(validMintRequestData({ memory_tier: "session" }));
+    const request = parseMintTokenRequest(
+      validMintRequestData({ memory_tier: "session" }),
+    );
     expect(request.memory_tier).toBe("session");
   });
 
@@ -203,8 +205,18 @@ describe("ApprovalStateSchema", () => {
 
 describe("CapabilityTokenSchema", () => {
   it("accepts all valid data classes for max_data_class", () => {
-    for (const cls of ["public", "internal", "confidential", "restricted", "pii", "secret", "credential"]) {
-      const result = CapabilityTokenSchema.safeParse(validTokenData({ max_data_class: cls }));
+    for (const cls of [
+      "public",
+      "internal",
+      "confidential",
+      "restricted",
+      "pii",
+      "secret",
+      "credential",
+    ]) {
+      const result = CapabilityTokenSchema.safeParse(
+        validTokenData({ max_data_class: cls }),
+      );
       expect(result.success).toBe(true);
     }
   });

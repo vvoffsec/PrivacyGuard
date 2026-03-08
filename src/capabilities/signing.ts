@@ -37,7 +37,9 @@ function canonicalize(value: unknown): unknown {
 /**
  * Compute the fields to sign — everything except `signature`.
  */
-function signingPayload(token: CapabilityToken | Omit<CapabilityToken, "signature">): string {
+function signingPayload(
+  token: CapabilityToken | Omit<CapabilityToken, "signature">,
+): string {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { signature: _sig, ...rest } = token as Record<string, unknown>;
   return JSON.stringify(canonicalize(rest));

@@ -61,7 +61,9 @@ describe("computeTokenSignature", () => {
     const key1 = createStaticKeyProvider("key-1");
     const key2 = createStaticKeyProvider("key-2");
     const token = makeUnsignedToken();
-    expect(computeTokenSignature(token, key1)).not.toBe(computeTokenSignature(token, key2));
+    expect(computeTokenSignature(token, key1)).not.toBe(
+      computeTokenSignature(token, key2),
+    );
   });
 
   it("any field change produces different signature", () => {
@@ -135,7 +137,11 @@ describe("verifyTokenSignature", () => {
     const key = createStaticKeyProvider("test-key");
     const unsigned = makeUnsignedToken();
     const signature = computeTokenSignature(unsigned, key);
-    const tampered = { ...unsigned, signature, agent_id: "evil-agent" } as CapabilityToken;
+    const tampered = {
+      ...unsigned,
+      signature,
+      agent_id: "evil-agent",
+    } as CapabilityToken;
     expect(verifyTokenSignature(tampered, key)).toBe(false);
   });
 
@@ -151,7 +157,11 @@ describe("verifyTokenSignature", () => {
   it("returns false for corrupted signature", () => {
     const key = createStaticKeyProvider("test-key");
     const unsigned = makeUnsignedToken();
-    const signed = { ...unsigned, signature: "hmac-sha256:0000000000000000000000000000000000000000000000000000000000000000" } as CapabilityToken;
+    const signed = {
+      ...unsigned,
+      signature:
+        "hmac-sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    } as CapabilityToken;
     expect(verifyTokenSignature(signed, key)).toBe(false);
   });
 });

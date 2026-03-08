@@ -50,9 +50,7 @@ describe("serializeAuditEvent / deserializeAuditEvent", () => {
   });
 
   it("rejects valid JSON that isn't a valid event", () => {
-    expect(() => deserializeAuditEvent('{"foo": "bar"}')).toThrow(
-      AuditValidationError,
-    );
+    expect(() => deserializeAuditEvent('{"foo": "bar"}')).toThrow(AuditValidationError);
   });
 
   it("produces deterministic output (sorted keys)", () => {
@@ -77,8 +75,7 @@ describe("scrubEvent", () => {
   });
 
   it("replaces JWT tokens in free-text fields", () => {
-    const jwt =
-      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abc123signature";
+    const jwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abc123signature";
     const event = parseAuditEvent(
       validDecisionEventData({ explanation: `Token: ${jwt}` }),
     );

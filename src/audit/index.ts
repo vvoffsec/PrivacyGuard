@@ -43,8 +43,4 @@ export {
 } from "./serialization.js";
 export { type AuditQueryFilter, executeQuery } from "./query.js";
 export { type AuditStore, InMemoryAuditStore } from "./store.js";
-export {
-  type AuditEmitter,
-  DefaultAuditEmitter,
-  NoOpAuditEmitter,
-} from "./emitter.js";
+export { type AuditEmitter, DefaultAuditEmitter, NoOpAuditEmitter } from "./emitter.js";

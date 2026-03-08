@@ -33,10 +33,7 @@ export {
   computeTokenSignature,
   verifyTokenSignature,
 } from "./signing.js";
-export {
-  type TokenRevocationRegistry,
-  createRevocationRegistry,
-} from "./revocation.js";
+export { type TokenRevocationRegistry, createRevocationRegistry } from "./revocation.js";
 export { type TokenMinter, createTokenMinter } from "./mint.js";
 export { type TokenValidator, createTokenValidator } from "./validate.js";
 export { checkScope } from "./scope.js";

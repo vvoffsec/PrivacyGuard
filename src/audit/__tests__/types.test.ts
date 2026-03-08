@@ -171,9 +171,7 @@ describe("ApprovalEventSchema", () => {
 
   it("accepts all valid statuses", () => {
     for (const status of ["granted", "denied", "expired", "revoked"]) {
-      const result = ApprovalEventSchema.safeParse(
-        validApprovalEventData({ status }),
-      );
+      const result = ApprovalEventSchema.safeParse(validApprovalEventData({ status }));
       expect(result.success).toBe(true);
     }
   });
@@ -200,9 +198,7 @@ describe("ToolEventSchema", () => {
   });
 
   it("rejects invalid result", () => {
-    const result = ToolEventSchema.safeParse(
-      validToolEventData({ result: "pending" }),
-    );
+    const result = ToolEventSchema.safeParse(validToolEventData({ result: "pending" }));
     expect(result.success).toBe(false);
   });
 
@@ -242,16 +238,12 @@ describe("MemoryEventSchema", () => {
   });
 
   it("accepts optional ttl", () => {
-    const result = MemoryEventSchema.safeParse(
-      validMemoryEventData({ ttl: 3600 }),
-    );
+    const result = MemoryEventSchema.safeParse(validMemoryEventData({ ttl: 3600 }));
     expect(result.success).toBe(true);
   });
 
   it("rejects non-positive ttl", () => {
-    const result = MemoryEventSchema.safeParse(
-      validMemoryEventData({ ttl: 0 }),
-    );
+    const result = MemoryEventSchema.safeParse(validMemoryEventData({ ttl: 0 }));
     expect(result.success).toBe(false);
   });
 });
@@ -279,9 +271,7 @@ describe("EgressEventSchema", () => {
   });
 
   it("rejects negative bytes_sent", () => {
-    const result = EgressEventSchema.safeParse(
-      validEgressEventData({ bytes_sent: -1 }),
-    );
+    const result = EgressEventSchema.safeParse(validEgressEventData({ bytes_sent: -1 }));
     expect(result.success).toBe(false);
   });
 });
@@ -388,9 +378,7 @@ describe("parseAuditEvent", () => {
   });
 
   it("accepts optional correlation_id", () => {
-    const event = parseAuditEvent(
-      validDecisionEventData({ correlation_id: uuidv4() }),
-    );
+    const event = parseAuditEvent(validDecisionEventData({ correlation_id: uuidv4() }));
     expect(event.correlation_id).toBeTruthy();
   });
 

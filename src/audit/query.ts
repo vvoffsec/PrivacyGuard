@@ -27,7 +27,7 @@ export function executeQuery(
 
     if (filter.decision_id) {
       const hasDecisionId =
-        ("decision_id" in event && event.decision_id === filter.decision_id);
+        "decision_id" in event && event.decision_id === filter.decision_id;
       if (!hasDecisionId) return false;
     }
 

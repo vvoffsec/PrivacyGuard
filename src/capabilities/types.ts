@@ -16,7 +16,12 @@ export const MEMORY_TIER_ORDER: Record<MemoryTier, number> = {
 
 // --- Approval State ---
 
-export const ApprovalStateSchema = z.enum(["not_required", "pending", "approved", "denied"]);
+export const ApprovalStateSchema = z.enum([
+  "not_required",
+  "pending",
+  "approved",
+  "denied",
+]);
 
 export type ApprovalState = z.infer<typeof ApprovalStateSchema>;
 

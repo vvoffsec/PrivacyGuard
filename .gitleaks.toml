@@ -1,0 +1,8 @@
+[extend]
+# Use the default gitleaks config as a base
+
+[[allowlist.paths]]
+# Test files use fake/dummy secrets for validation testing
+paths = [
+  '''src/audit/__tests__/serialization\.test\.ts''',
+]

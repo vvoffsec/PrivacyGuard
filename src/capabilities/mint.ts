@@ -13,7 +13,10 @@ export function createTokenMinter(keyProvider: SigningKeyProvider): TokenMinter 
     mint(request: unknown, decision: PolicyDecision): CapabilityToken {
       const parsed = parseMintTokenRequest(request);
 
-      if (decision.decision !== "allow" && decision.decision !== "allow_with_minimization") {
+      if (
+        decision.decision !== "allow" &&
+        decision.decision !== "allow_with_minimization"
+      ) {
         throw new TokenMintError(
           `Cannot mint token: PDP decision is "${decision.decision}" (requires "allow" or "allow_with_minimization")`,
         );

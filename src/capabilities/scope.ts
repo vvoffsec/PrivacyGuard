@@ -1,7 +1,15 @@
 import { isAtLeast } from "../data-model/index.js";
-import { MEMORY_TIER_ORDER, type CapabilityToken, type ScopeCheckRequest, type ScopeCheckResult } from "./types.js";
+import {
+  MEMORY_TIER_ORDER,
+  type CapabilityToken,
+  type ScopeCheckRequest,
+  type ScopeCheckResult,
+} from "./types.js";
 
-export function checkScope(token: CapabilityToken, request: ScopeCheckRequest): ScopeCheckResult {
+export function checkScope(
+  token: CapabilityToken,
+  request: ScopeCheckRequest,
+): ScopeCheckResult {
   const denialReasons: string[] = [];
 
   // Tool check
@@ -17,7 +25,9 @@ export function checkScope(token: CapabilityToken, request: ScopeCheckRequest): 
       token.allowed_destinations.length > 0 &&
       !token.allowed_destinations.includes(request.destination)
     ) {
-      denialReasons.push(`Destination "${request.destination}" is not in allowed_destinations`);
+      denialReasons.push(
+        `Destination "${request.destination}" is not in allowed_destinations`,
+      );
     }
   }
 

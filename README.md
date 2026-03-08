@@ -12,13 +12,13 @@
 
 ---
 
-*Every subagent launch, tool call, memory write, remote model call, and outbound send must route through PrivacyGuard. Bypass paths are treated as defects.*
+*Every subagent launch, tool call, memory write, remote model call, and outbound send must route through PrivacyGuard.*
 
 </div>
 
 ## Overview
 
-PrivacyGuard is a **mandatory** security, privacy, and DLP control plane for [OpenClaw](https://github.com/vvoffsec/OpenClaw) subagents. It sits between the user and all downstream execution surfaces — subagents, tools, memory, remote destinations — to enforce:
+PrivacyGuard is a **mandatory** security, privacy, and DLP control plane for [OpenClaw](https://github.com/openclaw/openclaw) subagents. It sits between the user and all downstream execution surfaces — subagents, tools, memory, remote destinations — to enforce:
 
 - **Zero-trust mediation** — no implicit trust, every action verified
 - **Policy-as-code** — deterministic, auditable decisions via OPA/Cedar
@@ -33,20 +33,20 @@ Seven components form the control plane:
 ┌─────────────────────────────────────────────────────────────────────┐
 │                        PrivacyGuard Control Plane                   │
 │                                                                     │
-│  ┌──────────────┐   ┌──────────────┐   ┌────────────────────────┐  │
-│  │   Ingress     │──▶│  Sensitivity  │──▶│  Policy Decision Point │  │
-│  │   Inspector   │   │  & Trust      │   │  (PDP)                 │  │
-│  └──────────────┘   │  Engine       │   └──────────┬─────────────┘  │
-│                      └──────────────┘              │                 │
-│                                          ┌─────────┼─────────┐      │
-│                                          ▼         ▼         ▼      │
+│  ┌──────────────┐    ┌──────────────┐    ┌────────────────────────┐ │
+│  │   Ingress    │ ─> │  Sensitivity │ -> │  Policy Decision Point │ │
+│  │   Inspector  │    │  & Trust     │    │  (PDP)                 │ │
+│  └──────────────┘    │  Engine      │    └──────────┬─────────────┘ │
+│                      └──────────────┘               │               │
+│                                           ┌─────────┼─────────┐     │
+│                                           ▼         ▼         ▼     │
 │                                   ┌──────────┐ ┌───────┐ ┌───────┐  │
-│                                   │ Approval │ │ Tool  │ │Memory │  │
+│                                   │ Approval │ │ Tool  │ │ Memory│  │
 │                                   │ Orch.    │ │ Gate  │ │ Guard │  │
 │                                   └──────────┘ └───────┘ └───────┘  │
 │                                          │         │         │      │
 │                                          └─────────┼─────────┘      │
-│                                                    ▼                 │
+│                                                    ▼                │
 │                                          ┌──────────────────┐       │
 │                                          │  Egress DLP &    │       │
 │                                          │  Audit           │       │

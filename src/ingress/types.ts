@@ -40,9 +40,7 @@ export const TrustClassificationSchema = z.object({
   default_taint_flags: z.array(TaintFlagSchema),
   retention_class: RetentionClassSchema,
 });
-export type TrustClassification = Readonly<
-  z.infer<typeof TrustClassificationSchema>
->;
+export type TrustClassification = Readonly<z.infer<typeof TrustClassificationSchema>>;
 
 // --- Sensitivity Result ---
 
@@ -51,9 +49,7 @@ export const SensitivityResultSchema = z.object({
   data_classes: z.array(DataClassSchema),
   taint_flags: z.array(TaintFlagSchema),
 });
-export type SensitivityResult = Readonly<
-  z.infer<typeof SensitivityResultSchema>
->;
+export type SensitivityResult = Readonly<z.infer<typeof SensitivityResultSchema>>;
 
 // --- Injection Check Result ---
 
@@ -63,9 +59,7 @@ export const InjectionCheckResultSchema = z.object({
   matched_patterns: z.array(z.string()),
   taint_flags: z.array(TaintFlagSchema),
 });
-export type InjectionCheckResult = Readonly<
-  z.infer<typeof InjectionCheckResultSchema>
->;
+export type InjectionCheckResult = Readonly<z.infer<typeof InjectionCheckResultSchema>>;
 
 // --- Ingress Pipeline Result ---
 
@@ -80,10 +74,7 @@ export interface IngressPipelineResult {
 // --- Stage Interfaces ---
 
 export interface ContentParser {
-  parse(
-    content: string,
-    metadata?: Record<string, unknown>,
-  ): ParsedContent;
+  parse(content: string, metadata?: Record<string, unknown>): ParsedContent;
 }
 
 export interface TrustClassifier {

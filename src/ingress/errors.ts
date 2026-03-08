@@ -44,11 +44,7 @@ export class IngressPipelineError extends Error {
   public readonly context: IngressErrorContext;
   public override readonly cause?: Error;
 
-  constructor(
-    message: string,
-    cause?: Error,
-    context?: Partial<IngressErrorContext>,
-  ) {
+  constructor(message: string, cause?: Error, context?: Partial<IngressErrorContext>) {
     super(message);
     this.name = "IngressPipelineError";
     this.cause = cause;

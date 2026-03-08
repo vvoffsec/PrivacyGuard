@@ -2,10 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { parseEnvelope } from "../data-model/envelope.js";
 import type { ContentEnvelope } from "../data-model/envelope.js";
 import type { z } from "zod";
-import type {
-  TaintFlagSchema,
-  DestinationSchema,
-} from "../data-model/envelope.js";
+import type { TaintFlagSchema, DestinationSchema } from "../data-model/envelope.js";
 import type { DataClass } from "../data-model/data-class.js";
 import type { PolicyInput } from "../pdp/types.js";
 import type { EnvelopeAssembler, EnvelopeAssemblerInput } from "./types.js";
@@ -25,16 +22,15 @@ function dedupe<T extends string>(arr: T[]): T[] {
  */
 export function createEnvelopeAssembler(): EnvelopeAssembler {
   return {
-    assemble(
-      input: EnvelopeAssemblerInput,
-    ): { envelope: ContentEnvelope; policy_input: PolicyInput } {
+    assemble(input: EnvelopeAssemblerInput): {
+      envelope: ContentEnvelope;
+      policy_input: PolicyInput;
+    } {
       const { source_type, trust, sensitivity, injection } = input;
 
       // Derive sensitivity array: use detected data classes, default to ["public"]
       const sensitivityClasses: DataClass[] =
-        sensitivity.data_classes.length > 0
-          ? [...sensitivity.data_classes]
-          : ["public"];
+        sensitivity.data_classes.length > 0 ? [...sensitivity.data_classes] : ["public"];
 
       // Union taint flags from trust defaults + sensitivity + injection (de-duped)
       const taint_flags: TaintFlag[] = dedupe([

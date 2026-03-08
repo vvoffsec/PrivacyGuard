@@ -13,9 +13,7 @@ describe("createPatternSensitivityEngine", () => {
     });
 
     it("detects multiple email addresses", () => {
-      const result = engine.scan(
-        "Email alice@test.com or bob@test.org",
-      );
+      const result = engine.scan("Email alice@test.com or bob@test.org");
       expect(result.entities).toHaveLength(2);
     });
 
@@ -113,9 +111,7 @@ describe("createPatternSensitivityEngine", () => {
   describe("AWS key detection", () => {
     it("detects AWS access key ID", () => {
       const result = engine.scan("Key: AKIAIOSFODNN7EXAMPLE");
-      expect(result.entities.some((e) => e.type === "aws_access_key")).toBe(
-        true,
-      );
+      expect(result.entities.some((e) => e.type === "aws_access_key")).toBe(true);
     });
 
     it("sets credential data class for AWS keys", () => {
@@ -170,9 +166,7 @@ describe("createPatternSensitivityEngine", () => {
       expect(email).toBeDefined();
       expect(email?.span.start).toBe(7);
       expect(email?.span.end).toBe(23);
-      expect(content.slice(email?.span.start, email?.span.end)).toBe(
-        "user@example.com",
-      );
+      expect(content.slice(email?.span.start, email?.span.end)).toBe("user@example.com");
     });
   });
 

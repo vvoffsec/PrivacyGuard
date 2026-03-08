@@ -36,10 +36,7 @@ function buildDetectedSummaries(
   if (dataClasses.length === 0) return [];
 
   // Map entity types to data classes (from sensitivity engine results)
-  const classMap = new Map<
-    DataClass,
-    { count: number; maxConfidence: number }
-  >();
+  const classMap = new Map<DataClass, { count: number; maxConfidence: number }>();
 
   // Use data classes from sensitivity result
   for (const dc of dataClasses) {

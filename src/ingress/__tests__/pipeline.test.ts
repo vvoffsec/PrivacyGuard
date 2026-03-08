@@ -1,8 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  createIngressPipeline,
-  createDefaultIngressPipeline,
-} from "../pipeline.js";
+import { createIngressPipeline, createDefaultIngressPipeline } from "../pipeline.js";
 import { IngressPipelineError } from "../errors.js";
 import type {
   ContentParser,
@@ -124,9 +121,7 @@ describe("createIngressPipeline", () => {
         defaultContext,
       );
       expect(result.injection.detected).toBe(true);
-      expect(result.envelope.taint_flags).toContain(
-        "prompt_injection_suspected",
-      );
+      expect(result.envelope.taint_flags).toContain("prompt_injection_suspected");
     });
   });
 
@@ -161,10 +156,7 @@ describe("createIngressPipeline", () => {
       });
 
       expect(() =>
-        pipeline.evaluate(
-          { content: "test", source_type: "user_input" },
-          defaultContext,
-        ),
+        pipeline.evaluate({ content: "test", source_type: "user_input" }, defaultContext),
       ).toThrow(IngressPipelineError);
     });
 
@@ -183,10 +175,7 @@ describe("createIngressPipeline", () => {
       });
 
       expect(() =>
-        pipeline.evaluate(
-          { content: "test", source_type: "user_input" },
-          defaultContext,
-        ),
+        pipeline.evaluate({ content: "test", source_type: "user_input" }, defaultContext),
       ).toThrow(IngressPipelineError);
     });
 
@@ -205,10 +194,7 @@ describe("createIngressPipeline", () => {
       });
 
       expect(() =>
-        pipeline.evaluate(
-          { content: "test", source_type: "user_input" },
-          defaultContext,
-        ),
+        pipeline.evaluate({ content: "test", source_type: "user_input" }, defaultContext),
       ).toThrow(IngressPipelineError);
     });
 
@@ -227,10 +213,7 @@ describe("createIngressPipeline", () => {
       });
 
       expect(() =>
-        pipeline.evaluate(
-          { content: "test", source_type: "user_input" },
-          defaultContext,
-        ),
+        pipeline.evaluate({ content: "test", source_type: "user_input" }, defaultContext),
       ).toThrow(IngressPipelineError);
     });
 
@@ -249,10 +232,7 @@ describe("createIngressPipeline", () => {
       });
 
       expect(() =>
-        pipeline.evaluate(
-          { content: "test", source_type: "user_input" },
-          defaultContext,
-        ),
+        pipeline.evaluate({ content: "test", source_type: "user_input" }, defaultContext),
       ).toThrow(IngressPipelineError);
     });
 
@@ -272,10 +252,7 @@ describe("createIngressPipeline", () => {
       });
 
       try {
-        pipeline.evaluate(
-          { content: "test", source_type: "user_input" },
-          defaultContext,
-        );
+        pipeline.evaluate({ content: "test", source_type: "user_input" }, defaultContext);
         expect.unreachable("Should have thrown");
       } catch (error) {
         expect(error).toBeInstanceOf(IngressPipelineError);
@@ -298,10 +275,7 @@ describe("createIngressPipeline", () => {
       });
 
       try {
-        pipeline.evaluate(
-          { content: "test", source_type: "user_input" },
-          defaultContext,
-        );
+        pipeline.evaluate({ content: "test", source_type: "user_input" }, defaultContext);
         expect.unreachable("Should have thrown");
       } catch (error) {
         expect((error as IngressPipelineError).context.stage).toBe("parse");

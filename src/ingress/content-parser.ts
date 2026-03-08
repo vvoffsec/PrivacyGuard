@@ -76,10 +76,7 @@ function stripHtmlTags(html: string): string {
  */
 export function createContentParser(): ContentParser {
   return {
-    parse(
-      content: string,
-      metadata?: Record<string, unknown>,
-    ): ParsedContent {
+    parse(content: string, metadata?: Record<string, unknown>): ParsedContent {
       if (content.length === 0) {
         throw new IngressParseError("Content must not be empty");
       }
@@ -100,7 +97,10 @@ export function createContentParser(): ContentParser {
             const parsed = JSON.parse(content.trim()) as unknown;
             resultMetadata.parsed_json = parsed;
             // Canonical re-serialization for stable hashing
-            normalized_text = JSON.stringify(parsed, Object.keys(parsed as Record<string, unknown>).sort());
+            normalized_text = JSON.stringify(
+              parsed,
+              Object.keys(parsed as Record<string, unknown>).sort(),
+            );
           } catch {
             // Fall back to treating as plain text if parse fails
             normalized_text = normalizeText(content);
@@ -119,8 +119,7 @@ export function createContentParser(): ContentParser {
         normalized_text,
         content_hash,
         byte_length,
-        metadata:
-          Object.keys(resultMetadata).length > 0 ? resultMetadata : undefined,
+        metadata: Object.keys(resultMetadata).length > 0 ? resultMetadata : undefined,
       });
     },
   };

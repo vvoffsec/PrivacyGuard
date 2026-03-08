@@ -136,7 +136,7 @@ gantt
     05 Audit Event System           :done, p05, after p01, 1d
 
     section Phase 1 - MVP
-    06 Ingress Inspector            :p06, after p02, 5d
+    06 Ingress Inspector            :done, p06, after p02, 1d
     07 Sensitivity & Trust Engine   :p07, after p02, 7d
     08 Tool Gateway                 :p08, after p02, 5d
     09 Approval Orchestrator        :p09, after p02, 5d
@@ -159,7 +159,7 @@ gantt
 | Phase | Components | Status |
 |-------|-----------|--------|
 | **Phase 0** — Skeleton | 01 Data Model, 02 PDP, 03 Cap Tokens, 04 API Surface, 05 Audit Events | **5/5** |
-| **Phase 1** — MVP Controls | 06 Ingress, 07 Sensitivity, 08 Tool Gateway, 09 Approvals, 10 Egress DLP, 11 Telemetry | 0/6 |
+| **Phase 1** — MVP Controls | 06 Ingress, 07 Sensitivity, 08 Tool Gateway, 09 Approvals, 10 Egress DLP, 11 Telemetry | **1/6** |
 | **Phase 2** — Trust-Aware Memory | 12 Memory Guard | 0/1 |
 | **Phase 3** — Provenance & Identity | 13 Provenance, 14 Workload Identity | 0/2 |
 | **Phase 4** — Enterprise | 15 Enterprise & Deployment | 0/1 |
@@ -306,6 +306,17 @@ PrivacyGuard/
 │   │   ├── store.ts                   # InMemoryAuditStore
 │   │   ├── query.ts                   # Event querying + filtering
 │   │   ├── serialization.ts          # JSON serialization + integrity verification
+│   │   └── index.ts                   # Public API barrel
+│   ├── ingress/                       # Plan 06 — Ingress Inspector
+│   │   ├── __tests__/                 # 145 unit tests
+│   │   ├── types.ts                   # Pipeline stage interfaces + Zod schemas
+│   │   ├── errors.ts                  # Parse, classification, pipeline errors
+│   │   ├── content-parser.ts          # Format detection, normalization, hashing
+│   │   ├── trust-classifier.ts        # Source→trust mapping, escalation prevention
+│   │   ├── sensitivity-engine.ts      # 8 pattern recognizers (email, phone, SSN, CC, keys, etc.)
+│   │   ├── injection-detector.ts      # 7 prompt injection pattern categories
+│   │   ├── envelope-assembler.ts      # ContentEnvelope + PolicyInput assembly
+│   │   ├── pipeline.ts               # Orchestrated pipeline (fail-closed)
 │   │   └── index.ts                   # Public API barrel
 │   └── shared/
 │       └── crypto.ts                  # SHA-256 hashing utility

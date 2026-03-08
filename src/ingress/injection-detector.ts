@@ -20,8 +20,7 @@ const CRITICAL_PATTERNS: InjectionPattern[] = [
   },
   {
     name: "encoded_instruction",
-    pattern:
-      /(?:[A-Za-z0-9+/]{20,}={0,2})/,
+    pattern: /(?:[A-Za-z0-9+/]{20,}={0,2})/,
     confidence: 0.6,
     description: "Base64-encoded fragments that may contain hidden instructions",
   },
@@ -85,10 +84,7 @@ function isBase64Instruction(match: string): boolean {
   }
 }
 
-const TRUSTED_SOURCE_TRUSTS = new Set<SourceTrust>([
-  "trusted_user",
-  "trusted_local",
-]);
+const TRUSTED_SOURCE_TRUSTS = new Set<SourceTrust>(["trusted_user", "trusted_local"]);
 
 /**
  * Creates an InjectionDetector instance
@@ -135,10 +131,7 @@ export function createInjectionDetector(
       // Add custom patterns for untrusted sources
       if (!isTrusted && customPatterns) {
         for (const pattern of customPatterns) {
-          if (
-            !matched_patterns.includes(pattern.name) &&
-            pattern.pattern.test(content)
-          ) {
+          if (!matched_patterns.includes(pattern.name) && pattern.pattern.test(content)) {
             matched_patterns.push(pattern.name);
             maxConfidence = Math.max(maxConfidence, pattern.confidence);
           }

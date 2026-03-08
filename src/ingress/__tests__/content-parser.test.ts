@@ -17,7 +17,7 @@ describe("createContentParser", () => {
     });
 
     it("detects JSON arrays", () => {
-      const result = parser.parse('[1, 2, 3]');
+      const result = parser.parse("[1, 2, 3]");
       expect(result.format).toBe("application/json");
     });
 

@@ -13,9 +13,7 @@ import type {
 /**
  * Creates an IngressPipeline with a given configuration
  */
-export function createIngressPipeline(
-  config: IngressPipelineConfig,
-): IngressPipeline {
+export function createIngressPipeline(config: IngressPipelineConfig): IngressPipeline {
   const {
     contentParser,
     trustClassifier,
@@ -69,10 +67,7 @@ export function createIngressPipeline(
       // Injection detection
       let injection;
       try {
-        injection = injectionDetector.check(
-          parsed.normalized_text,
-          trust.source_trust,
-        );
+        injection = injectionDetector.check(parsed.normalized_text, trust.source_trust);
       } catch (error) {
         throw new IngressPipelineError(
           "Injection detection failed",

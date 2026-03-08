@@ -60,10 +60,7 @@ describe("createTrustClassifier", () => {
     });
 
     it("accepts untrusted_external for memory_content", () => {
-      const result = classifier.classify(
-        "memory_content",
-        "untrusted_external",
-      );
+      const result = classifier.classify("memory_content", "untrusted_external");
       expect(result.source_trust).toBe("untrusted_external");
     });
   });

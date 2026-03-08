@@ -72,10 +72,7 @@ const TRUST_ORDER: Record<SourceTrust, number> = {
  */
 export function createTrustClassifier(): TrustClassifier {
   return {
-    classify(
-      source_type: SourceType,
-      source_trust?: SourceTrust,
-    ): TrustClassification {
+    classify(source_type: SourceType, source_trust?: SourceTrust): TrustClassification {
       const defaults = DEFAULT_TRUST_MAP[source_type];
 
       let effective_trust: SourceTrust;

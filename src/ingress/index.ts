@@ -40,7 +40,4 @@ export { createTrustClassifier } from "./trust-classifier.js";
 export { createPatternSensitivityEngine } from "./sensitivity-engine.js";
 export { createInjectionDetector } from "./injection-detector.js";
 export { createEnvelopeAssembler } from "./envelope-assembler.js";
-export {
-  createIngressPipeline,
-  createDefaultIngressPipeline,
-} from "./pipeline.js";
+export { createIngressPipeline, createDefaultIngressPipeline } from "./pipeline.js";

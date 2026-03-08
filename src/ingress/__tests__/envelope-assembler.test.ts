@@ -2,9 +2,7 @@ import { describe, it, expect } from "vitest";
 import { createEnvelopeAssembler } from "../envelope-assembler.js";
 import type { EnvelopeAssemblerInput } from "../types.js";
 
-function validInput(
-  overrides?: Partial<EnvelopeAssemblerInput>,
-): EnvelopeAssemblerInput {
+function validInput(overrides?: Partial<EnvelopeAssemblerInput>): EnvelopeAssemblerInput {
   return {
     content: "Hello, world!",
     source_type: "user_input",
@@ -137,10 +135,7 @@ describe("createEnvelopeAssembler", () => {
             detected: true,
             confidence: 0.9,
             matched_patterns: ["role_assumption"],
-            taint_flags: [
-              "prompt_injection_suspected",
-              "untrusted_instruction",
-            ],
+            taint_flags: ["prompt_injection_suspected", "untrusted_instruction"],
           },
         }),
       );

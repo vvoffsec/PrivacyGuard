@@ -3,11 +3,7 @@ import type { DataClass } from "../data-model/data-class.js";
 import type { DetectedEntity } from "../data-model/entity.js";
 import type { z } from "zod";
 import type { TaintFlagSchema } from "../data-model/envelope.js";
-import type {
-  SensitivityEngine,
-  SensitivityResult,
-  PatternRecognizer,
-} from "./types.js";
+import type { SensitivityEngine, SensitivityResult, PatternRecognizer } from "./types.js";
 
 type TaintFlag = z.infer<typeof TaintFlagSchema>;
 
@@ -33,13 +29,12 @@ function createEmailRecognizer(): PatternRecognizer {
     data_class: "pii",
     default_confidence: 0.9,
     detect(content: string) {
-      return execAll(
-        /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g,
-        content,
-      ).map((m) => ({
-        value: m[0],
-        span: { start: m.index, end: m.index + m[0].length },
-      }));
+      return execAll(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, content).map(
+        (m) => ({
+          value: m[0],
+          span: { start: m.index, end: m.index + m[0].length },
+        }),
+      );
     },
   };
 }
@@ -231,8 +226,7 @@ function deduplicateEntities(entities: EntityWithClass[]): EntityWithClass[] {
   for (const entity of sorted) {
     const overlapIdx = result.findIndex(
       (existing) =>
-        entity.span.start < existing.span.end &&
-        entity.span.end > existing.span.start,
+        entity.span.start < existing.span.end && entity.span.end > existing.span.start,
     );
     if (overlapIdx < 0) {
       result.push(entity);

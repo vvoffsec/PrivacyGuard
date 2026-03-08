@@ -327,16 +327,6 @@ PrivacyGuard/
 └── vitest.config.ts
 ```
 
-## Contributing
-
-This project is in active early development. To contribute:
-
-1. Read the [architecture spec](docs/PrivacyGuard_Technical_Architecture_Spec.pdf) and the relevant [plan doc](docs/plans/) for the component you want to work on
-2. Check the [dependency graph](#dependency-graph) to ensure prerequisites are complete
-3. Create a feature branch — never push directly to `main`
-4. Ensure `npm run check` passes before submitting a PR
-5. All policy decisions must be deterministic and auditable — no probabilistic allow/deny
-
 ## License
 
 TBD

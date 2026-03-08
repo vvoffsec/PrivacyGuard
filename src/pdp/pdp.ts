@@ -21,8 +21,7 @@ export function createPDP(engine: PolicyEngine): PDP {
             decision_id: uuidv4(),
             policy_id: "pg.failclosed",
             matched_rules: ["evaluation_error"],
-            explanation:
-              "Policy evaluation failed; failing closed.",
+            explanation: "Policy evaluation failed; failing closed.",
             policy_bundle_version: engine.bundleVersion,
           });
         }

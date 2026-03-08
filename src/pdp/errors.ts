@@ -14,8 +14,7 @@ export class PolicyValidationError extends Error {
   toExplanation(): string {
     return this.issues
       .map(
-        (issue, i) =>
-          `${i + 1}. [${issue.path.map(String).join(".")}] ${issue.message}`,
+        (issue, i) => `${i + 1}. [${issue.path.map(String).join(".")}] ${issue.message}`,
       )
       .join("\n");
   }

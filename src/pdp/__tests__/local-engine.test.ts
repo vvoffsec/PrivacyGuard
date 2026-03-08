@@ -20,7 +20,12 @@ function makeInput(overrides: Record<string, unknown> = {}): PolicyInput {
 function makeEngine(
   rules: {
     id: string;
-    effect: "allow" | "allow_with_minimization" | "require_approval" | "quarantine" | "deny";
+    effect:
+      | "allow"
+      | "allow_with_minimization"
+      | "require_approval"
+      | "quarantine"
+      | "deny";
     evaluate: (input: PolicyInput) => boolean;
   }[],
 ) {
@@ -38,9 +43,7 @@ function makeEngine(
 
 describe("InProcessPolicyEngine", () => {
   it("returns allow when no rules match", () => {
-    const engine = makeEngine([
-      { id: "r1", effect: "deny", evaluate: () => false },
-    ]);
+    const engine = makeEngine([{ id: "r1", effect: "deny", evaluate: () => false }]);
     const decision = engine.evaluate(makeInput());
     expect(decision.decision).toBe("allow");
     expect(decision.policy_id).toBe("pg.default.allow");
@@ -48,18 +51,14 @@ describe("InProcessPolicyEngine", () => {
   });
 
   it("returns the bundle version in decisions", () => {
-    const engine = makeEngine([
-      { id: "r1", effect: "allow", evaluate: () => false },
-    ]);
+    const engine = makeEngine([{ id: "r1", effect: "allow", evaluate: () => false }]);
     const decision = engine.evaluate(makeInput());
     expect(decision.policy_bundle_version).toBe("1.0.0");
     expect(engine.bundleVersion).toBe("1.0.0");
   });
 
   it("returns deny when a deny rule matches", () => {
-    const engine = makeEngine([
-      { id: "r1", effect: "deny", evaluate: () => true },
-    ]);
+    const engine = makeEngine([{ id: "r1", effect: "deny", evaluate: () => true }]);
     const decision = engine.evaluate(makeInput());
     expect(decision.decision).toBe("deny");
     expect(decision.policy_id).toBe("r1");
@@ -67,9 +66,7 @@ describe("InProcessPolicyEngine", () => {
   });
 
   it("returns quarantine when a quarantine rule matches", () => {
-    const engine = makeEngine([
-      { id: "r1", effect: "quarantine", evaluate: () => true },
-    ]);
+    const engine = makeEngine([{ id: "r1", effect: "quarantine", evaluate: () => true }]);
     const decision = engine.evaluate(makeInput());
     expect(decision.decision).toBe("quarantine");
   });
@@ -95,9 +92,7 @@ describe("InProcessPolicyEngine", () => {
   });
 
   it("returns allow match with no required_actions", () => {
-    const engine = makeEngine([
-      { id: "r1", effect: "allow", evaluate: () => true },
-    ]);
+    const engine = makeEngine([{ id: "r1", effect: "allow", evaluate: () => true }]);
     const decision = engine.evaluate(makeInput());
     expect(decision.decision).toBe("allow");
     expect(decision.required_actions).toBeUndefined();
@@ -136,9 +131,7 @@ describe("InProcessPolicyEngine", () => {
   });
 
   it("generates a unique decision_id (uuid format)", () => {
-    const engine = makeEngine([
-      { id: "r1", effect: "allow", evaluate: () => false },
-    ]);
+    const engine = makeEngine([{ id: "r1", effect: "allow", evaluate: () => false }]);
     const d1 = engine.evaluate(makeInput());
     const d2 = engine.evaluate(makeInput());
     expect(d1.decision_id).not.toBe(d2.decision_id);
@@ -149,9 +142,7 @@ describe("InProcessPolicyEngine", () => {
   });
 
   it("produces deterministic decisions (same effect, policy_id) for same input", () => {
-    const engine = makeEngine([
-      { id: "r1", effect: "deny", evaluate: () => true },
-    ]);
+    const engine = makeEngine([{ id: "r1", effect: "deny", evaluate: () => true }]);
     const input = makeInput();
     const d1 = engine.evaluate(input);
     const d2 = engine.evaluate(input);
@@ -163,25 +154,19 @@ describe("InProcessPolicyEngine", () => {
   });
 
   it("provides explanation from the winning rule", () => {
-    const engine = makeEngine([
-      { id: "r1", effect: "deny", evaluate: () => true },
-    ]);
+    const engine = makeEngine([{ id: "r1", effect: "deny", evaluate: () => true }]);
     const decision = engine.evaluate(makeInput());
     expect(decision.explanation).toBe("Rule r1");
   });
 
   it("provides explanation for default allow", () => {
-    const engine = makeEngine([
-      { id: "r1", effect: "deny", evaluate: () => false },
-    ]);
+    const engine = makeEngine([{ id: "r1", effect: "deny", evaluate: () => false }]);
     const decision = engine.evaluate(makeInput());
     expect(decision.explanation).toContain("No policy rules matched");
   });
 
   it("returns frozen decision objects", () => {
-    const engine = makeEngine([
-      { id: "r1", effect: "deny", evaluate: () => true },
-    ]);
+    const engine = makeEngine([{ id: "r1", effect: "deny", evaluate: () => true }]);
     const decision = engine.evaluate(makeInput());
     expect(Object.isFrozen(decision)).toBe(true);
   });

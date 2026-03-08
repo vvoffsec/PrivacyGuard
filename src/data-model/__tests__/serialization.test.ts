@@ -33,9 +33,7 @@ describe("serializeEnvelope / deserializeEnvelope", () => {
   });
 
   it("rejects valid JSON that isn't a valid envelope", () => {
-    expect(() => deserializeEnvelope('{"foo": "bar"}')).toThrow(
-      EnvelopeValidationError,
-    );
+    expect(() => deserializeEnvelope('{"foo": "bar"}')).toThrow(EnvelopeValidationError);
   });
 });
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { createPatternSensitivityEngine } from "../sensitivity-engine.js";
+import { createPatternSensitivityEngine } from "../index.js";
 
 describe("createPatternSensitivityEngine", () => {
   const engine = createPatternSensitivityEngine();
@@ -172,7 +172,7 @@ describe("createPatternSensitivityEngine", () => {
 
   describe("de-duplication", () => {
     it("de-duplicates overlapping spans keeping higher confidence", () => {
-      // Custom recognizers that match overlapping spans
+      // Custom recognizers that match overlapping spans (with signals to avoid confidence cap)
       const engine2 = createPatternSensitivityEngine({
         recognizers: [
           {
@@ -181,7 +181,13 @@ describe("createPatternSensitivityEngine", () => {
             default_confidence: 0.3,
             detect: (content) =>
               content.includes("overlap")
-                ? [{ value: "overlap", span: { start: 0, end: 7 } }]
+                ? [
+                    {
+                      value: "overlap",
+                      span: { start: 0, end: 7 },
+                      signals: { pattern_matched: true, format_validated: true },
+                    },
+                  ]
                 : [],
           },
           {
@@ -190,7 +196,13 @@ describe("createPatternSensitivityEngine", () => {
             default_confidence: 0.9,
             detect: (content) =>
               content.includes("overlap")
-                ? [{ value: "overlap", span: { start: 0, end: 7 } }]
+                ? [
+                    {
+                      value: "overlap",
+                      span: { start: 0, end: 7 },
+                      signals: { pattern_matched: true, format_validated: true },
+                    },
+                  ]
                 : [],
           },
         ],

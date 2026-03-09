@@ -37,7 +37,7 @@ export {
 // Factories
 export { createContentParser } from "./content-parser.js";
 export { createTrustClassifier } from "./trust-classifier.js";
-export { createPatternSensitivityEngine } from "./sensitivity-engine.js";
+export { createSensitivityEngine as createPatternSensitivityEngine } from "../sensitivity/engine.js";
 export { createInjectionDetector } from "./injection-detector.js";
 export { createEnvelopeAssembler } from "./envelope-assembler.js";
 export { createIngressPipeline, createDefaultIngressPipeline } from "./pipeline.js";

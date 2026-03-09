@@ -125,7 +125,9 @@ describe("golden corpus", () => {
     });
 
     it("detects Bearer token", () => {
-      const result = engine.scan("Authorization: Bearer test-token-abc123def456ghi789jkl");
+      const result = engine.scan(
+        "Authorization: Bearer test-token-abc123def456ghi789jkl",
+      );
       expect(result.entities.some((e) => e.type === "oauth_token")).toBe(true);
     });
   });

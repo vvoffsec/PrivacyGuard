@@ -11,13 +11,13 @@ export function createPasswordRecognizer(): PatternRecognizer {
         /\b(?:password|passwd|pwd|pass)\s*[=:]\s*["']?([^\s"']{1,}(?:\s[^\s"']+)*)["']?/gi,
         content,
       ).map((m) => ({
-          value: m[0],
-          span: { start: m.index, end: m.index + m[0].length },
-          signals: {
-            pattern_matched: true,
-            context_validated: true,
-          },
-        }));
+        value: m[0],
+        span: { start: m.index, end: m.index + m[0].length },
+        signals: {
+          pattern_matched: true,
+          context_validated: true,
+        },
+      }));
     },
   };
 }

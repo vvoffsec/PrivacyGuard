@@ -137,10 +137,10 @@ gantt
 
     section Phase 1 - MVP
     06 Ingress Inspector            :done, p06, after p02, 1d
-    07 Sensitivity & Trust Engine   :p07, after p02, 7d
-    08 Tool Gateway                 :p08, after p02, 5d
-    09 Approval Orchestrator        :p09, after p02, 5d
-    10 Egress DLP Gateway           :p10, after p07, 5d
+    07 Sensitivity & Trust Engine   :done, p07, after p06, 1d
+    08 Tool Gateway                 :done, p08, after p07, 1d
+    09 Approval Orchestrator        :p09, after p08, 5d
+    10 Egress DLP Gateway           :p10, after p08, 5d
     11 Safe Telemetry & Logging     :p11, after p05, 5d
 
     section Phase 2 - Memory
@@ -159,7 +159,7 @@ gantt
 | Phase | Components | Status |
 |-------|-----------|--------|
 | **Phase 0** — Skeleton | 01 Data Model, 02 PDP, 03 Cap Tokens, 04 API Surface, 05 Audit Events | **5/5** |
-| **Phase 1** — MVP Controls | 06 Ingress, 07 Sensitivity, 08 Tool Gateway, 09 Approvals, 10 Egress DLP, 11 Telemetry | **1/6** |
+| **Phase 1** — MVP Controls | 06 Ingress, 07 Sensitivity, 08 Tool Gateway, 09 Approvals, 10 Egress DLP, 11 Telemetry | **3/6** |
 | **Phase 2** — Trust-Aware Memory | 12 Memory Guard | 0/1 |
 | **Phase 3** — Provenance & Identity | 13 Provenance, 14 Workload Identity | 0/2 |
 | **Phase 4** — Enterprise | 15 Enterprise & Deployment | 0/1 |
@@ -317,6 +317,26 @@ PrivacyGuard/
 │   │   ├── injection-detector.ts      # 7 prompt injection pattern categories
 │   │   ├── envelope-assembler.ts      # ContentEnvelope + PolicyInput assembly
 │   │   ├── pipeline.ts               # Orchestrated pipeline (fail-closed)
+│   │   └── index.ts                   # Public API barrel
+│   ├── sensitivity/                   # Plan 07 — Sensitivity & Trust Engine
+│   │   ├── __tests__/                 # 200 unit tests
+│   │   ├── types.ts                   # Recognition results, engine config schemas
+│   │   ├── errors.ts                  # Recognition + engine errors
+│   │   ├── recognizers/               # 11 pattern recognizers (email, phone, SSN, CC, API keys, etc.)
+│   │   ├── entropy.ts                # Shannon entropy calculation
+│   │   ├── confidence.ts             # Confidence scoring + aggregation
+│   │   ├── secret-handle.ts          # Opaque secret handles (never log raw values)
+│   │   ├── deduplication.ts          # Entity deduplication across recognizers
+│   │   ├── engine.ts                  # Configurable SensitivityEngine facade
+│   │   └── index.ts                   # Public API barrel
+│   ├── gateway/                       # Plan 08 — Tool Gateway
+│   │   ├── __tests__/                 # 277 unit tests
+│   │   ├── types.ts                   # Tool request/response schemas, risk tiers
+│   │   ├── errors.ts                  # Gateway validation + sanitization errors
+│   │   ├── tool-categories.ts        # Risk-tier classification for tools
+│   │   ├── argument-validator.ts     # Argument type + constraint validation
+│   │   ├── argument-sanitizer.ts     # Injection + traversal sanitization
+│   │   ├── gateway.ts                # ToolGateway facade (classify → validate → sanitize → gate)
 │   │   └── index.ts                   # Public API barrel
 │   └── shared/
 │       └── crypto.ts                  # SHA-256 hashing utility

@@ -5,11 +5,17 @@ import {
   TaintFlagSchema,
   RetentionClassSchema,
 } from "../data-model/envelope.js";
-import { DataClassSchema } from "../data-model/data-class.js";
-import { DetectedEntitySchema } from "../data-model/entity.js";
 import type { ContentEnvelope } from "../data-model/envelope.js";
-import type { DataClass } from "../data-model/data-class.js";
 import type { PolicyInput } from "../pdp/types.js";
+
+// Re-export sensitivity types from the standalone module
+export type {
+  SensitivityResult,
+  SensitivityEngine,
+  PatternRecognizer,
+} from "../sensitivity/types.js";
+
+export { SensitivityResultSchema } from "../sensitivity/types.js";
 
 // --- Content Format ---
 
@@ -42,15 +48,6 @@ export const TrustClassificationSchema = z.object({
 });
 export type TrustClassification = Readonly<z.infer<typeof TrustClassificationSchema>>;
 
-// --- Sensitivity Result ---
-
-export const SensitivityResultSchema = z.object({
-  entities: z.array(DetectedEntitySchema),
-  data_classes: z.array(DataClassSchema),
-  taint_flags: z.array(TaintFlagSchema),
-});
-export type SensitivityResult = Readonly<z.infer<typeof SensitivityResultSchema>>;
-
 // --- Injection Check Result ---
 
 export const InjectionCheckResultSchema = z.object({
@@ -67,7 +64,7 @@ export interface IngressPipelineResult {
   readonly envelope: ContentEnvelope;
   readonly policy_input: PolicyInput;
   readonly parsed: ParsedContent;
-  readonly sensitivity: SensitivityResult;
+  readonly sensitivity: import("../sensitivity/types.js").SensitivityResult;
   readonly injection: InjectionCheckResult;
 }
 
@@ -82,19 +79,6 @@ export interface TrustClassifier {
     source_type: z.infer<typeof SourceTypeSchema>,
     source_trust?: z.infer<typeof SourceTrustSchema>,
   ): TrustClassification;
-}
-
-export interface SensitivityEngine {
-  scan(content: string): SensitivityResult;
-}
-
-export interface PatternRecognizer {
-  readonly name: string;
-  readonly data_class: DataClass;
-  readonly default_confidence: number;
-  detect(
-    content: string,
-  ): readonly { value: string; span: { start: number; end: number } }[];
 }
 
 export interface InjectionDetector {
@@ -123,7 +107,7 @@ export interface EnvelopeAssemblerInput {
   readonly source_type: z.infer<typeof SourceTypeSchema>;
   readonly parsed: ParsedContent;
   readonly trust: TrustClassification;
-  readonly sensitivity: SensitivityResult;
+  readonly sensitivity: import("../sensitivity/types.js").SensitivityResult;
   readonly injection: InjectionCheckResult;
   readonly metadata?: Record<string, unknown>;
 }
@@ -133,7 +117,7 @@ export interface EnvelopeAssemblerInput {
 export interface IngressPipelineConfig {
   readonly contentParser: ContentParser;
   readonly trustClassifier: TrustClassifier;
-  readonly sensitivityEngine: SensitivityEngine;
+  readonly sensitivityEngine: import("../sensitivity/types.js").SensitivityEngine;
   readonly injectionDetector: InjectionDetector;
   readonly envelopeAssembler: EnvelopeAssembler;
 }

@@ -10,7 +10,7 @@ import type {
 } from "../types.js";
 import { createContentParser } from "../content-parser.js";
 import { createTrustClassifier } from "../trust-classifier.js";
-import { createPatternSensitivityEngine } from "../sensitivity-engine.js";
+import { createPatternSensitivityEngine } from "../index.js";
 import { createInjectionDetector } from "../injection-detector.js";
 import { createEnvelopeAssembler } from "../envelope-assembler.js";
 

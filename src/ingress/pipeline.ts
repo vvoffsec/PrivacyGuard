@@ -1,7 +1,7 @@
 import { IngressPipelineError } from "./errors.js";
 import { createContentParser } from "./content-parser.js";
 import { createTrustClassifier } from "./trust-classifier.js";
-import { createPatternSensitivityEngine } from "./sensitivity-engine.js";
+import { createSensitivityEngine } from "../sensitivity/engine.js";
 import { createInjectionDetector } from "./injection-detector.js";
 import { createEnvelopeAssembler } from "./envelope-assembler.js";
 import type {
@@ -122,7 +122,7 @@ export function createDefaultIngressPipeline(): IngressPipeline {
   return createIngressPipeline({
     contentParser: createContentParser(),
     trustClassifier: createTrustClassifier(),
-    sensitivityEngine: createPatternSensitivityEngine(),
+    sensitivityEngine: createSensitivityEngine(),
     injectionDetector: createInjectionDetector(),
     envelopeAssembler: createEnvelopeAssembler(),
   });

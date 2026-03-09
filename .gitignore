@@ -3,3 +3,4 @@ docs/plans/*
 node_modules/
 dist/
 *.tsbuildinfo
+.worktrees/

@@ -12,7 +12,7 @@
 
 ---
 
-*Every subagent launch, tool call, memory write, remote model call, and outbound send must route through PrivacyGuard.*
+_Every subagent launch, tool call, memory write, remote model call, and outbound send must route through PrivacyGuard._
 
 </div>
 
@@ -54,15 +54,15 @@ Seven components form the control plane:
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-| # | Component | Role |
-|---|-----------|------|
-| 1 | **Ingress Inspector** | Parse inbound content, classify trust/source, detect prompt injection |
-| 2 | **Sensitivity & Trust Engine** | PII/secret detection, confidence scores, trust labels, data classes |
-| 3 | **Policy Decision Point** | Evaluate allow/deny/redact/approve decisions via policy-as-code |
-| 4 | **Approval Orchestrator** | User-facing prompts for high-risk flows, purpose-bound approvals |
-| 5 | **Tool Gateway** | Scoped capability tokens, tool mediation, exec/fs/browser gating |
-| 6 | **Memory Guard** | Ephemeral/quarantined/trusted memory tiers, promotion rules |
-| 7 | **Egress DLP & Audit** | Outbound scanning, transforms (mask/tokenize/redact), signed audit events |
+| #   | Component                      | Role                                                                      |
+| --- | ------------------------------ | ------------------------------------------------------------------------- |
+| 1   | **Ingress Inspector**          | Parse inbound content, classify trust/source, detect prompt injection     |
+| 2   | **Sensitivity & Trust Engine** | PII/secret detection, confidence scores, trust labels, data classes       |
+| 3   | **Policy Decision Point**      | Evaluate allow/deny/redact/approve decisions via policy-as-code           |
+| 4   | **Approval Orchestrator**      | User-facing prompts for high-risk flows, purpose-bound approvals          |
+| 5   | **Tool Gateway**               | Scoped capability tokens, tool mediation, exec/fs/browser gating          |
+| 6   | **Memory Guard**               | Ephemeral/quarantined/trusted memory tiers, promotion rules               |
+| 7   | **Egress DLP & Audit**         | Outbound scanning, transforms (mask/tokenize/redact), signed audit events |
 
 ## Trust Zones
 
@@ -92,17 +92,17 @@ The `ContentEnvelope` is the canonical metadata wrapper for **all** content flow
 
 ```typescript
 interface ContentEnvelope {
-  content_id:           string;           // UUIDv4
-  source_type:          SourceType;       // user_input | local_file | web_content | ...
-  source_trust:         SourceTrust;      // trusted_user | untrusted_external | ...
-  sensitivity:          DataClass[];      // public < internal < confidential < restricted < pii < secret
-  entities:             DetectedEntity[]; // PII/secret entities found in content
-  retention_class:      RetentionClass;   // ephemeral | session | durable | quarantined
-  allowed_destinations: Destination[];    // local_only | approved_remote | any_remote
-  purpose_tags:         PurposeTag[];     // user_request | agent_task | audit | ...
-  taint_flags:          TaintFlag[];      // contains_pii | contains_secret | prompt_injection_suspected
-  provenance_ref?:      string;           // URL to provenance attestation
-  created_at:           string;           // ISO 8601 datetime
+  content_id: string; // UUIDv4
+  source_type: SourceType; // user_input | local_file | web_content | ...
+  source_trust: SourceTrust; // trusted_user | untrusted_external | ...
+  sensitivity: DataClass[]; // public < internal < confidential < restricted < pii < secret
+  entities: DetectedEntity[]; // PII/secret entities found in content
+  retention_class: RetentionClass; // ephemeral | session | durable | quarantined
+  allowed_destinations: Destination[]; // local_only | approved_remote | any_remote
+  purpose_tags: PurposeTag[]; // user_request | agent_task | audit | ...
+  taint_flags: TaintFlag[]; // contains_pii | contains_secret | prompt_injection_suspected
+  provenance_ref?: string; // URL to provenance attestation
+  created_at: string; // ISO 8601 datetime
 }
 ```
 
@@ -112,13 +112,13 @@ Cross-field invariants are enforced at parse time — for example, `pii` sensiti
 
 Every policy decision produces one of:
 
-| Effect | Meaning |
-|--------|---------|
-| `allow` | Proceed with no restrictions |
-| `allow_with_minimization` | Proceed, but strip/redact unnecessary sensitive data |
-| `require_approval` | Block until user explicitly approves with purpose binding |
-| `quarantine` | Isolate content for review; do not use in active flows |
-| `deny` | Hard block with human-readable explanation and policy ID |
+| Effect                    | Meaning                                                   |
+| ------------------------- | --------------------------------------------------------- |
+| `allow`                   | Proceed with no restrictions                              |
+| `allow_with_minimization` | Proceed, but strip/redact unnecessary sensitive data      |
+| `require_approval`        | Block until user explicitly approves with purpose binding |
+| `quarantine`              | Isolate content for review; do not use in active flows    |
+| `deny`                    | Hard block with human-readable explanation and policy ID  |
 
 ## Implementation Roadmap
 
@@ -152,18 +152,24 @@ gantt
 
     section Phase 4 - Enterprise
     15 Enterprise & Deployment      :p15, after p12, 7d
+
+    section Phase 5 - OpenClaw Integration
+    17 OpenClaw Hook System         :p17, after p09, 7d
+    18 Plugin Adapter               :p18, after p17, 7d
+    19 E2E Integration & Shadow     :p19, after p18, 7d
 ```
 
 ### Progress
 
-| Phase | Components | Status |
-|-------|-----------|--------|
-| **Phase 0** — Skeleton | 01 Data Model, 02 PDP, 03 Cap Tokens, 04 API Surface, 05 Audit Events | **5/5** |
-| **Phase 1** — MVP Controls | 06 Ingress, 07 Sensitivity, 08 Tool Gateway, 09 Approvals, 10 Egress DLP, 11 Telemetry | **3/6** |
-| **Phase 2** — Trust-Aware Memory | 12 Memory Guard | 0/1 |
-| **Phase 3** — Provenance & Identity | 13 Provenance, 14 Workload Identity | 0/2 |
-| **Phase 4** — Enterprise | 15 Enterprise & Deployment | 0/1 |
-| **Cross-cutting** | 16 Test Strategy & Threat Modeling | Ongoing |
+| Phase                               | Components                                                                             | Status  |
+| ----------------------------------- | -------------------------------------------------------------------------------------- | ------- |
+| **Phase 0** — Skeleton              | 01 Data Model, 02 PDP, 03 Cap Tokens, 04 API Surface, 05 Audit Events                  | **5/5** |
+| **Phase 1** — MVP Controls          | 06 Ingress, 07 Sensitivity, 08 Tool Gateway, 09 Approvals, 10 Egress DLP, 11 Telemetry | **3/6** |
+| **Phase 2** — Trust-Aware Memory    | 12 Memory Guard                                                                        | 0/1     |
+| **Phase 3** — Provenance & Identity | 13 Provenance, 14 Workload Identity                                                    | 0/2     |
+| **Phase 4** — Enterprise            | 15 Enterprise & Deployment                                                             | 0/1     |
+| **Phase 5** — OpenClaw Integration  | 17 Hook System, 18 Plugin Adapter, 19 E2E Integration                                  | 0/3     |
+| **Cross-cutting**                   | 16 Test Strategy & Threat Modeling                                                     | Ongoing |
 
 ## Dependency Graph
 
@@ -187,6 +193,10 @@ gantt
 14 Workload Identity ──▶ 03 Cap Tokens
 15 Enterprise ──▶ All Phase 0–3 components
 16 Test Strategy ──▶ Runs in parallel from Phase 0 onward
+
+17 OpenClaw Hook System ──▶ (no internal deps, upstream OpenClaw work)
+18 Plugin Adapter ──▶ 17 Hook System, 02/03/05/06/07/08/10/12
+19 E2E Integration ──▶ 17 Hook System, 18 Plugin Adapter, 16 Test Strategy
 ```
 
 ## Quick Start
@@ -205,36 +215,36 @@ npm run check
 
 ### Development Commands
 
-| Command | Description |
-|---------|-------------|
-| `npm run check` | Run all checks in sequence |
-| `npm run typecheck` | TypeScript type checking (`tsc --noEmit`) |
-| `npm run lint` | ESLint with strict type-checked rules |
-| `npm run test` | Run all unit tests (Vitest) |
-| `npm run format` | Auto-format with Prettier |
-| `npm run audit:deps` | Check for dependency vulnerabilities |
+| Command              | Description                               |
+| -------------------- | ----------------------------------------- |
+| `npm run check`      | Run all checks in sequence                |
+| `npm run typecheck`  | TypeScript type checking (`tsc --noEmit`) |
+| `npm run lint`       | ESLint with strict type-checked rules     |
+| `npm run test`       | Run all unit tests (Vitest)               |
+| `npm run format`     | Auto-format with Prettier                 |
+| `npm run audit:deps` | Check for dependency vulnerabilities      |
 
 ## Tech Stack
 
-| Category | Technology |
-|----------|-----------|
-| Language | TypeScript (ESM, ES2022, NodeNext) |
+| Category   | Technology                                          |
+| ---------- | --------------------------------------------------- |
+| Language   | TypeScript (ESM, ES2022, NodeNext)                  |
 | Validation | Zod v4 — runtime validation + static type inference |
-| Testing | Vitest v4 — native ESM, fast feedback |
-| Linting | ESLint v10 + typescript-eslint (strictTypeChecked) |
-| Formatting | Prettier |
-| IDs | uuid v13 (UUIDv4) |
+| Testing    | Vitest v4 — native ESM, fast feedback               |
+| Linting    | ESLint v10 + typescript-eslint (strictTypeChecked)  |
+| Formatting | Prettier                                            |
+| IDs        | uuid v13 (UUIDv4)                                   |
 
 ### Planned additions
 
-| Category | Technology |
-|----------|-----------|
-| Authorization | OPA or Cedar-backed PDP |
+| Category             | Technology                                             |
+| -------------------- | ------------------------------------------------------ |
+| Authorization        | OPA or Cedar-backed PDP                                |
 | PII/Secret Detection | Pattern + checksum + entropy pipeline (Presidio-class) |
-| Pseudonymization | Deterministic tokenization / FPE |
-| Workload Identity | SPIFFE/SPIRE |
-| Provenance | Signed bundles + in-toto / SLSA attestations |
-| Observability | OpenTelemetry with source-side redaction |
+| Pseudonymization     | Deterministic tokenization / FPE                       |
+| Workload Identity    | SPIFFE/SPIRE                                           |
+| Provenance           | Signed bundles + in-toto / SLSA attestations           |
+| Observability        | OpenTelemetry with source-side redaction               |
 
 ## Non-Functional Targets
 
@@ -254,7 +264,10 @@ PrivacyGuard/
 │   │   ├── 01-data-model-and-envelope.md
 │   │   ├── 02-policy-decision-point.md
 │   │   ├── ...                        # 03 through 16
-│   │   └── 16-test-strategy-and-threat-modeling.md
+│   │   ├── 16-test-strategy-and-threat-modeling.md
+│   │   ├── 17-openclaw-hook-system.md
+│   │   ├── 18-plugin-adapter.md
+│   │   └── 19-e2e-integration-and-shadow-mode.md
 │   └── PrivacyGuard_Technical_Architecture_Spec.pdf
 ├── src/
 │   ├── data-model/                    # Plan 01 — ContentEnvelope
@@ -338,6 +351,13 @@ PrivacyGuard/
 │   │   ├── argument-sanitizer.ts     # Injection + traversal sanitization
 │   │   ├── gateway.ts                # ToolGateway facade (classify → validate → sanitize → gate)
 │   │   └── index.ts                   # Public API barrel
+│   ├── openclaw-plugin/                 # Plan 18 — Plugin Adapter (future)
+│   │   ├── index.ts                   # createPrivacyGuard() export
+│   │   ├── config.ts                  # PrivacyGuardConfig Zod schema
+│   │   ├── handlers/                  # 11 hook handler implementations
+│   │   ├── adapters/                  # OpenClaw ↔ PrivacyGuard type converters
+│   │   ├── shadow-mode.ts            # Shadow mode wrapper
+│   │   └── metrics.ts                # Latency, decision counts, error rates
 │   └── shared/
 │       └── crypto.ts                  # SHA-256 hashing utility
 ├── CLAUDE.md

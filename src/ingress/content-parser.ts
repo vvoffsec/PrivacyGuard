@@ -1,6 +1,7 @@
 import { sha256Hash } from "../shared/crypto.js";
 import { IngressParseError } from "./errors.js";
 import type { ContentParser, ContentFormat, ParsedContent } from "./types.js";
+import { JSDOM } from "jsdom";
 
 /**
  * Detects content format from metadata or content inspection.
@@ -60,14 +61,18 @@ function normalizeText(content: string): string {
  * Strips HTML tags from content, preserving text.
  */
 function stripHtmlTags(html: string): string {
-  // Remove HTML comments
-  let text = html.replace(/<!--[\s\S]*?-->/g, "");
-  // Remove script/style contents
-  text = text.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, "");
-  // Remove tags
-  text = text.replace(/<[^>]+>/g, " ");
-  // Collapse multiple spaces
-  text = text.replace(/ {2,}/g, " ");
+  // Use a DOM parser to robustly remove script/style elements and extract text
+  const dom = new JSDOM(html);
+  const { document } = dom.window;
+
+  // Remove script and style elements entirely (including their contents)
+  document.querySelectorAll("script,style").forEach((el) => el.remove());
+
+  // Get the textual content of the remaining document
+  let text = document.body ? document.body.textContent ?? "" : document.textContent ?? "";
+
+  // Normalize whitespace similar to the previous implementation
+  text = text.replace(/\s+/g, " ");
   return text.trim();
 }
 
